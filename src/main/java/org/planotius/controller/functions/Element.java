@@ -15,6 +15,7 @@ import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.planotius.exception.ElementNotFinded;
 
 /**
  * @author ggodoy
@@ -122,8 +123,9 @@ public class Element extends Controller implements WebElement {
         try {
             this.webElement.click();
         } catch (Exception e) {
-            log.warn("Element [" + this.key + ":" + this.keyValue + "] not finded for click. Trying by JS: $('" + this.keyValue + "').click();");
-            runJavaScript("$('" + this.keyValue + "').click()");
+            String message = "Element ["+ this.key + ":" + this.keyValue + "] not found for click.";
+            log.warn(message);
+            throw new ElementNotFinded(message);
         }
         waitPageLoad();
     }
