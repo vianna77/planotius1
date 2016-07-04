@@ -105,14 +105,18 @@ public class Element extends Controller implements WebElement {
 
     private void reload() {
         if (this.webElement == null) {
+            log.debug("webElement null... loadingInputData this.");
             this.webElement = loadInputData(this);
         }
         try {
+            log.debug("Calling this.webElement.isDisplayed");
             this.webElement.isDisplayed();
         } catch (StaleElementReferenceException stale) {
+            log.debug("Setting this.webElement to null and reloading again...");
             this.webElement = null;
             reload();
         } catch (NullPointerException npe) {
+            log.debug("NPE on when trying to call this.webElement.isDisplayed.");
             this.webElement = null;
         }
     }
@@ -120,29 +124,13 @@ public class Element extends Controller implements WebElement {
     
     public void click() {
         reload();
-        int maxRetry = 3;
-        int fiveSecondsInMillis = 5000;
         int tenSecondsInMillis = 10000;
-        boolean elementFound = false;
         String message = "Element ["+ this.key + ":" + this.keyValue + "] not found for click.";
         try {
-            //The chance that the element is already available is extremely small.
-            //We will force 5 seconds so the browser has enough time to open it.
-            Thread.sleep(fiveSecondsInMillis);
-            for (int counter = 0; counter < maxRetry; counter++){
-                if (this.isDisplayed()){
-                    log.debug("Element ["+ this.key + ":" + this.keyValue + "] found. Clicking it.");
-                    this.webElement.click();
-                    elementFound = true;
-                } else {
-                    log.debug("Element not found. Waiting 10 seconds for it to appear...");
-                    Thread.sleep(tenSecondsInMillis);
-                }
-            }
-            if (elementFound == false) {
-                log.warn(message);
-                throw new ElementNotFinded(message);
-            }
+            log.debug("Waiting 10 seconds before clicking element ["+ this.key + ":" + this.keyValue + "]");
+            Thread.sleep(tenSecondsInMillis);
+            this.webElement.click();
+            log.debug("Element ["+ this.key + ":" + this.keyValue + "] clicked.");
         } catch (Exception e) {
             log.warn(message);
             throw new ElementNotFinded(message);
