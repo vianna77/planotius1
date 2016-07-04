@@ -120,10 +120,30 @@ public class Element extends Controller implements WebElement {
     
     public void click() {
         reload();
+        int maxRetry = 3;
+        int fiveSecondsInMillis = 5000;
+        int tenSecondsInMillis = 10000;
+        boolean elementFound = false;
+        String message = "Element ["+ this.key + ":" + this.keyValue + "] not found for click.";
         try {
-            this.webElement.click();
+            //The chance that the element is already available is extremely small.
+            //We will force 5 seconds so the browser has enough time to open it.
+            Thread.sleep(fiveSecondsInMillis);
+            for (int counter = 0; counter < maxRetry; counter++){
+                if (this.isDisplayed()){
+                    log.debug("Element ["+ this.key + ":" + this.keyValue + "] found. Clicking it.");
+                    this.webElement.click();
+                    elementFound = true;
+                } else {
+                    log.debug("Element not found. Waiting 10 seconds for it to appear...");
+                    Thread.sleep(tenSecondsInMillis);
+                }
+            }
+            if (elementFound == false) {
+                log.warn(message);
+                throw new ElementNotFinded(message);
+            }
         } catch (Exception e) {
-            String message = "Element ["+ this.key + ":" + this.keyValue + "] not found for click.";
             log.warn(message);
             throw new ElementNotFinded(message);
         }
