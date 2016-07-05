@@ -214,24 +214,25 @@ public abstract class Controller {
                 if (myElement.getFrame() != "") {
                     //TODO: Adjust Frame navigation (This is a temporary solution...
                     try {
-                        log.debug("Switching to frame...");
+                        log.debug("Trying to switching to frame ->" + myElement.getFrame() + "<-");
                         driver.switchTo().frame(myElement.getFrame());
                     } catch (Exception e) {
-                        log.error("Could not switch to frame.", e);
+                        // APARENTEMENTE, SE CAUSAR UM NPE AQUI, NAO TEM IMPORTANCIA.
                     }
                 }
 
                 if (value != null) {
                     log.debug("Value is " + value);
+
                     element = findBy.id(value);
                     if (element != null) {
                         log.debug("Found value by ID");
                         return element;
                     }
 
-                    element = findBy.name(value);
+                    element = findBy.xpath(value);
                     if (element != null) {
-                        log.debug("Found value by name");
+                        log.debug("Found value by xpath");
                         return element;
                     }
 
@@ -241,9 +242,9 @@ public abstract class Controller {
                         return element;
                     }
 
-                    element = findBy.xpath(value);
+                    element = findBy.name(value);
                     if (element != null) {
-                        log.debug("Found value by xpath");
+                        log.debug("Found value by name");
                         return element;
                     }
 
