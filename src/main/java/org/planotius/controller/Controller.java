@@ -189,6 +189,7 @@ public abstract class Controller {
     public WebElement loadInputData(Element myElement) {
         String value;
         WebElement element = null;
+        log.debug("Find by getting driver");
         FindBy findBy = new FindBy(server.getDriver());
 
         String interfaceMapName = myElement.getAclass().getSimpleName();
@@ -196,12 +197,15 @@ public abstract class Controller {
         Annotation[] annotations = myElement.getField().getDeclaredAnnotations();
         for (Annotation annotation : annotations) {
             if (annotation instanceof ElementDiscover) {
+                log.debug("Annotation is ElementDiscover");
                 ElementDiscover myAnnotation = (ElementDiscover) annotation;
 
                 //[init] [TAM-3] Skip the external file. You can set the value directly on the ElementDiscover annotation
                 if (myAnnotation.key().equals("")) {
+                    log.debug("Key empty... getting value.");
                     value = myAnnotation.value();
                 } else {
+                    log.debug("Key is " + myAnnotation.key());
                     PropertiesLoader map = new PropertiesLoader(interfaceMapName);
                     value = map.getValue(myAnnotation.key());
                 }
@@ -210,62 +214,80 @@ public abstract class Controller {
                 if (myElement.getFrame() != "") {
                     //TODO: Adjust Frame navigation (This is a temporary solution...
                     try {
+                        log.debug("Switching to frame...");
                         driver.switchTo().frame(myElement.getFrame());
                     } catch (Exception e) {
-
+                        log.error("Could not switch to frame.", e);
                     }
                 }
 
                 if (value != null) {
-
+                    log.debug("Value is " + value);
                     element = findBy.id(value);
                     if (element != null) {
+                        log.debug("Found value by ID");
                         return element;
                     }
 
                     element = findBy.name(value);
                     if (element != null) {
+                        log.debug("Found value by name");
                         return element;
                     }
 
                     element = findBy.partialLinkText(value);
                     if (element != null) {
+                        log.debug("Found value by partialLinkText");
                         return element;
                     }
 
                     element = findBy.xpath(value);
                     if (element != null) {
+                        log.debug("Found value by xpath");
                         return element;
                     }
 
                     element = findBy.cssSelector(value);
                     if (element != null) {
+                        log.debug("Found value by cssSelector");
                         return element;
                     }
 
                     element = findBy.linkText(value);
                     if (element != null) {
+                        log.debug("Found value by linkText");
                         return element;
                     }
 
                     element = findBy.tagName(value);
                     if (element != null) {
+                        log.debug("Found value by tagName");
                         return element;
                     }
 
                     element = findBy.className(value);
                     if (element != null) {
+                        log.debug("Found value by className");
                         return element;
                     }
 
                     element = findBy.imageAlt(value);
                     if (element != null) {
+                        log.debug("Found value by imageAlt");
                         return element;
                     }
 
+                    log.warn("VALUE NOT FOUND BY ANY CODED SEARCH METHOD.");
+
+                } else {
+                    log.warn("Value is NULL for current key.");
                 }
+            } else {
+                log.warn("Annotation is NOT ElementDiscover. It is " + annotation.getClass().getName());
             }
         }
+
+        log.warn("RETURNING NULL.");
         return null;
     }
 

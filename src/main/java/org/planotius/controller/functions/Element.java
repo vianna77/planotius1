@@ -23,6 +23,7 @@ import org.planotius.exception.ElementNotFinded;
 public class Element extends Controller implements WebElement {
 
     private static final Logger log = Logger.getLogger(Element.class.getName());
+    private static final int TEN_SECONDS_IN_MILLIS = 10000;
 
     String key;
     String keyValue;
@@ -123,12 +124,11 @@ public class Element extends Controller implements WebElement {
 
     
     public void click() {
-        reload();
-        int tenSecondsInMillis = 10000;
         String message = "Element ["+ this.key + ":" + this.keyValue + "] not found for click.";
         try {
+            reload();
             log.debug("Waiting 10 seconds before clicking element ["+ this.key + ":" + this.keyValue + "]");
-            Thread.sleep(tenSecondsInMillis);
+            Thread.sleep(TEN_SECONDS_IN_MILLIS);
             this.webElement.click();
             log.debug("Element ["+ this.key + ":" + this.keyValue + "] clicked.");
         } catch (Exception e) {
@@ -139,8 +139,17 @@ public class Element extends Controller implements WebElement {
     }
 
     public void clickNoWait() {
-        reload();
-        this.webElement.click();
+        String message = "Element ["+ this.key + ":" + this.keyValue + "] not found for click.";
+        try{
+            reload();
+            log.debug("Waiting 10 seconds before clicking element ["+ this.key + ":" + this.keyValue + "]");
+            Thread.sleep(TEN_SECONDS_IN_MILLIS);
+            this.webElement.click();
+            log.debug("Element ["+ this.key + ":" + this.keyValue + "] clicked.");
+        } catch (Exception e) {
+            log.warn(message);
+            throw new ElementNotFinded(message);
+        }
     }
 
     public void submit() {
