@@ -23,6 +23,7 @@ import org.planotius.exception.ElementNotFinded;
 public class Element extends Controller implements WebElement {
 
     private static final Logger log = Logger.getLogger(Element.class.getName());
+    private static final int FIVE_SECONDS_IN_MILLIS = 5000;
     private static final int TEN_SECONDS_IN_MILLIS = 10000;
 
     String key;
@@ -158,12 +159,18 @@ public class Element extends Controller implements WebElement {
     }
 
     public void sendKeys(CharSequence... css) {
-        reload();
-        this.webElement.clear();
-        this.webElement.sendKeys(css);
+        try{
+            log.debug("Trying to send key " + css);
+            reload();
+            Thread.sleep(FIVE_SECONDS_IN_MILLIS);
+            this.webElement.clear();
+            this.webElement.sendKeys(css);
+        } catch (Exception e) {
+            log.warn("Error trying to send key " + css);
+            throw new ElementNotFinded("Unable to send key " + css);
+        }
     }
 
-    
     public void selectOnlist(Object value) {
         reload();
         waitCurrentPageLoad();
