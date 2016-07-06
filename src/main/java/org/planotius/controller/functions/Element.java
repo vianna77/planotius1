@@ -160,14 +160,14 @@ public class Element extends Controller implements WebElement {
 
     public void sendKeys(CharSequence... css) {
         try{
-            log.debug("Trying to send key " + css);
+            log.debug("Trying to send key " + css.toString());
             reload();
             Thread.sleep(FIVE_SECONDS_IN_MILLIS);
             this.webElement.clear();
             this.webElement.sendKeys(css);
         } catch (Exception e) {
-            log.warn("Error trying to send key " + css);
-            throw new ElementNotFinded("Unable to send key " + css);
+            log.warn("Error trying to send key " + css.toString());
+            throw new ElementNotFinded("Unable to send key " + css.toString());
         }
     }
 
