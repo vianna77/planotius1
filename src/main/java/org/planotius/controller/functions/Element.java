@@ -160,7 +160,9 @@ public class Element extends Controller implements WebElement {
 
     public void sendKeys(CharSequence... css) {
         try{
-            log.debug("Trying to send key " + css.toString());
+            final StringBuilder sb = new StringBuilder(css.length);
+            sb.append(css);
+            log.debug("Trying to send key " + sb.toString());
             reload();
             Thread.sleep(FIVE_SECONDS_IN_MILLIS);
             this.webElement.clear();
