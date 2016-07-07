@@ -159,17 +159,23 @@ public class Element extends Controller implements WebElement {
     }
 
     public void sendKeys(CharSequence... css) {
+        log.debug("CharSequence size is " + css.length);
+        StringBuilder sb = new StringBuilder(css.length);
+        for (CharSequence theChar : css) {
+            sb.append(theChar);
+        }
         try{
-            final StringBuilder sb = new StringBuilder(css.length);
-            sb.append(css);
-            log.debug("Trying to send key " + sb.toString());
+            log.debug("Trying to send keys " + sb.toString());
             reload();
-            Thread.sleep(FIVE_SECONDS_IN_MILLIS);
             this.webElement.clear();
+            Thread.sleep(FIVE_SECONDS_IN_MILLIS);
             this.webElement.sendKeys(css);
         } catch (Exception e) {
-            log.warn("Error trying to send key " + css.toString());
-            throw new ElementNotFinded("Unable to send key " + css.toString());
+            log.warn("Error trying to send keys " + sb.toString());
+            throw new ElementNotFinded("Unable to send keys " + sb.toString());
+        } finally {
+            sb.setLength(0);
+            sb=null;
         }
     }
 
