@@ -24,7 +24,7 @@ public class Element extends Controller implements WebElement {
 
     private static final Logger log = Logger.getLogger(Element.class.getName());
     private static final int FIVE_SECONDS_IN_MILLIS = 5000;
-    private static final int TEN_SECONDS_IN_MILLIS = 10000;
+    private static final int THREE_SECONDS_IN_MILLIS = 3000;
 
     String key;
     String keyValue;
@@ -129,7 +129,7 @@ public class Element extends Controller implements WebElement {
         try {
             reload();
             log.debug("Waiting 10 seconds before clicking element ["+ this.key + ":" + this.keyValue + "]");
-            Thread.sleep(TEN_SECONDS_IN_MILLIS);
+            Thread.sleep(FIVE_SECONDS_IN_MILLIS);
             this.webElement.click();
             log.debug("Element ["+ this.key + ":" + this.keyValue + "] clicked.");
         } catch (Exception e) {
@@ -144,7 +144,7 @@ public class Element extends Controller implements WebElement {
         try{
             reload();
             log.debug("Waiting 10 seconds before clicking element ["+ this.key + ":" + this.keyValue + "]");
-            Thread.sleep(TEN_SECONDS_IN_MILLIS);
+            Thread.sleep(FIVE_SECONDS_IN_MILLIS);
             this.webElement.click();
             log.debug("Element ["+ this.key + ":" + this.keyValue + "] clicked.");
         } catch (Exception e) {
@@ -168,7 +168,7 @@ public class Element extends Controller implements WebElement {
             log.debug("Trying to send keys " + sb.toString());
             reload();
             this.webElement.clear();
-            Thread.sleep(FIVE_SECONDS_IN_MILLIS);
+            Thread.sleep(THREE_SECONDS_IN_MILLIS);
             this.webElement.sendKeys(css);
         } catch (Exception e) {
             log.warn("Error trying to send keys " + sb.toString());
