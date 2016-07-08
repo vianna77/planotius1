@@ -222,56 +222,56 @@ public abstract class Controller {
                 }
 
                 if (value != null) {
-                    log.debug("Value is " + value);
-
+                    log.info("Value is " + value);
+                    log.debug("Trying to find value by ID");
                     element = findBy.id(value);
                     if (element != null) {
                         log.debug("Found value by ID");
                         return element;
                     }
-
+                    log.debug("Trying to find value by XPATH");
                     element = findBy.xpath(value);
                     if (element != null) {
                         log.debug("Found value by xpath");
                         return element;
                     }
-
+                    log.debug("Trying to find value by PARTIALLINKTEXT");
                     element = findBy.partialLinkText(value);
                     if (element != null) {
                         log.debug("Found value by partialLinkText");
                         return element;
                     }
-
+                    log.debug("Trying to find value by NAME");
                     element = findBy.name(value);
                     if (element != null) {
                         log.debug("Found value by name");
                         return element;
                     }
-
+                    log.debug("Trying to find value by CSSSELECTOR");
                     element = findBy.cssSelector(value);
                     if (element != null) {
                         log.debug("Found value by cssSelector");
                         return element;
                     }
-
+                    log.debug("Trying to find value by LINKTEXT");
                     element = findBy.linkText(value);
                     if (element != null) {
                         log.debug("Found value by linkText");
                         return element;
                     }
-
+                    log.debug("Trying to find value by TAGNAME");
                     element = findBy.tagName(value);
                     if (element != null) {
                         log.debug("Found value by tagName");
                         return element;
                     }
-
+                    log.debug("Trying to find value by CLASSNAME");
                     element = findBy.className(value);
                     if (element != null) {
                         log.debug("Found value by className");
                         return element;
                     }
-
+                    log.debug("Trying to find value by IMAGEALT");
                     element = findBy.imageAlt(value);
                     if (element != null) {
                         log.debug("Found value by imageAlt");

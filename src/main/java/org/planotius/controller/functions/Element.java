@@ -128,7 +128,7 @@ public class Element extends Controller implements WebElement {
         String message = "Element ["+ this.key + ":" + this.keyValue + "] not found for click.";
         try {
             reload();
-            log.debug("Waiting 10 seconds before clicking element ["+ this.key + ":" + this.keyValue + "]");
+            log.debug("Waiting " + FIVE_SECONDS_IN_MILLIS + " millis before clicking element ["+ this.key + ":" + this.keyValue + "]");
             Thread.sleep(FIVE_SECONDS_IN_MILLIS);
             this.webElement.click();
             log.debug("Element ["+ this.key + ":" + this.keyValue + "] clicked.");
@@ -143,7 +143,7 @@ public class Element extends Controller implements WebElement {
         String message = "Element ["+ this.key + ":" + this.keyValue + "] not found for click.";
         try{
             reload();
-            log.debug("Waiting 10 seconds before clicking element ["+ this.key + ":" + this.keyValue + "]");
+            log.debug("Waiting " + FIVE_SECONDS_IN_MILLIS + " millis before clicking element ["+ this.key + ":" + this.keyValue + "]");
             Thread.sleep(FIVE_SECONDS_IN_MILLIS);
             this.webElement.click();
             log.debug("Element ["+ this.key + ":" + this.keyValue + "] clicked.");
@@ -168,6 +168,7 @@ public class Element extends Controller implements WebElement {
             log.debug("Trying to send keys " + sb.toString());
             reload();
             this.webElement.clear();
+            log.debug("Waiting " + THREE_SECONDS_IN_MILLIS + " millis before sending " + sb.toString() );
             Thread.sleep(THREE_SECONDS_IN_MILLIS);
             this.webElement.sendKeys(css);
         } catch (Exception e) {
