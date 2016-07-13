@@ -23,8 +23,8 @@ import org.planotius.exception.ElementNotFinded;
 public class Element extends Controller implements WebElement {
 
     private static final Logger log = Logger.getLogger(Element.class.getName());
-    private static final int FIVE_SECONDS_IN_MILLIS = 5000;
-    private static final int THREE_SECONDS_IN_MILLIS = 3000;
+    private static final int CLICK_WAIT_TIME = 2000;
+    private static final int SENDKEY_WAIT_TIME = 2000;
 
     String key;
     String keyValue;
@@ -128,8 +128,8 @@ public class Element extends Controller implements WebElement {
         String message = "Element ["+ this.key + ":" + this.keyValue + "] not found for click.";
         try {
             reload();
-            log.debug("Waiting " + FIVE_SECONDS_IN_MILLIS + " millis before clicking element ["+ this.key + ":" + this.keyValue + "]");
-            Thread.sleep(FIVE_SECONDS_IN_MILLIS);
+            log.debug("Waiting " + CLICK_WAIT_TIME + " millis before clicking element ["+ this.key + ":" + this.keyValue + "]");
+            Thread.sleep(CLICK_WAIT_TIME);
             this.webElement.click();
             log.debug("Element ["+ this.key + ":" + this.keyValue + "] clicked.");
         } catch (Exception e) {
@@ -143,8 +143,8 @@ public class Element extends Controller implements WebElement {
         String message = "Element ["+ this.key + ":" + this.keyValue + "] not found for click.";
         try{
             reload();
-            log.debug("Waiting " + FIVE_SECONDS_IN_MILLIS + " millis before clicking element ["+ this.key + ":" + this.keyValue + "]");
-            Thread.sleep(FIVE_SECONDS_IN_MILLIS);
+            log.debug("Waiting " + CLICK_WAIT_TIME + " millis before clicking element ["+ this.key + ":" + this.keyValue + "]");
+            Thread.sleep(CLICK_WAIT_TIME);
             this.webElement.click();
             log.debug("Element ["+ this.key + ":" + this.keyValue + "] clicked.");
         } catch (Exception e) {
@@ -168,8 +168,8 @@ public class Element extends Controller implements WebElement {
             log.debug("Trying to send keys " + sb.toString());
             reload();
             this.webElement.clear();
-            log.debug("Waiting " + THREE_SECONDS_IN_MILLIS + " millis before sending " + sb.toString() );
-            Thread.sleep(THREE_SECONDS_IN_MILLIS);
+            log.debug("Waiting " + SENDKEY_WAIT_TIME + " millis before sending " + sb.toString() );
+            Thread.sleep(SENDKEY_WAIT_TIME);
             this.webElement.sendKeys(css);
         } catch (Exception e) {
             log.warn("Error trying to send keys " + sb.toString());
